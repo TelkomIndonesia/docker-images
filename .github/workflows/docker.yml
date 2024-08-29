@@ -42,7 +42,7 @@ jobs:
         run: |
           tags=""
           if [[ $(echo '${{ toJson(matrix.image.tags) }}' | jq -c 'type') == '"array"' ]]; then
-            for element in ${{ join(matrix.image.tags, " ") }}; do
+            for element in ${{ join(matrix.image.tags, ' ') }}; do
               tags="${tags}$(echo "type=raw,${element}")\n"
             done
 
