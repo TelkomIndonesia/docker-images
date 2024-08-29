@@ -37,8 +37,8 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ matrix.image.target }}
           tags: |
-            type=semver,pattern={{version}},value=v{{ matrix.image.version }}
-            type=semver,pattern={{major}}.{{minor}},value=v{{ matrix.image.version }}
+            type=semver,pattern={{version}},value=${{ matrix.image.version }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ matrix.image.version }}
 
       - id: docker_build
         name: Build and push Docker image
