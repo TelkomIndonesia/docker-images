@@ -33,12 +33,12 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - id: docker_meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ matrix.image.target }}:${{ matrix.image.version }}
+          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ matrix.image.target }}
           tags: |
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{version}},value={{ matrix.image.version }}
+            type=semver,pattern={{major}}.{{minor}},value={{ matrix.image.version }}
 
       - id: docker_build
         name: Build and push Docker image
