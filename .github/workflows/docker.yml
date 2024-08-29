@@ -13,9 +13,12 @@ jobs:
     strategy:
       matrix:
         image:
-          - target: golang
+          - name: golang
             version: "1.23.0"
-            version_arg_name: GOLANG_VERSION
+          - name: node
+            version: "20.17.0"
+          - name: postgres
+            version: "16.4"
     runs-on: ubuntu-latest
 
     steps:
@@ -35,7 +38,7 @@ jobs:
       - id: docker_meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ matrix.image.target }}
+          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/re/${{ matrix.image.name }}
           tags: |
             type=semver,pattern={{version}},value=${{ matrix.image.version }}
             type=semver,pattern={{major}}.{{minor}},value=${{ matrix.image.version }}
@@ -48,17 +51,16 @@ jobs:
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
-          target: ${{ matrix.image.target }}
-          build-args: ${{ matrix.image.version_arg_name }}=${{ matrix.image.version }}
+          build-args: IMAGE=${{ matrix.image.name }}:${{ matrix.image.version }}
 
-      # - name: Install Cosign
-      #   uses: sigstore/cosign-installer@main
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@main
 
-      # - name: Sign image with a key
-      #   run: |
-      #     cosign sign --key env://COSIGN_PRIVATE_KEY ${IMAGE_NAME,,}@${IMAGE_DIGEST} --yes
-      #   env:
-      #     IMAGE_NAME: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
-      #     IMAGE_DIGEST: ${{ steps.docker_build.outputs.digest }}
-      #     COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_PRIVATE_KEY}}
-      #     COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
+      - name: Sign image with a key
+        run: |
+          cosign sign --key env://COSIGN_PRIVATE_KEY ${IMAGE_NAME,,}@${IMAGE_DIGEST} --yes
+        env:
+          IMAGE_NAME: ${{ env.REGISTRY }}/${{ github.repository_owner }}/re/${{ matrix.image.name }}
+          IMAGE_DIGEST: ${{ steps.docker_build.outputs.digest }}
+          COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_PRIVATE_KEY}}
+          COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
