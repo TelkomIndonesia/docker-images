@@ -50,6 +50,7 @@ jobs:
             tags='
               type=semver,pattern={{version}},value=${{ matrix.image.version }}
               type=semver,pattern={{major}}.{{minor}},value=${{ matrix.image.version }}
+              type=semver,pattern={{major}},value=${{ matrix.image.version }}
             '
           fi
 
