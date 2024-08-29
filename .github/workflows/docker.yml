@@ -12,7 +12,7 @@ jobs:
   release:
     strategy:
       matrix:
-        images:
+        image:
           - target: golang
             version: "1.23.0"
             version_arg_name: GOLANG_VERSION
