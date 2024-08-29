@@ -18,9 +18,14 @@ jobs:
           - name: node
             version: "20.17.0"
           - name: postgres
-            version: "16.4"
+            version: "16.4-bookworm"
             tags:
+              - latest
+              - "16"
               - "16.4"
+              - 16.4-bookworm
+              - 16-bookworm
+              - bookworm
     runs-on: ubuntu-latest
 
     steps:
