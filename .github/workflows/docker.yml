@@ -19,6 +19,8 @@ jobs:
             version: "20.17.0"
           - name: postgres
             version: "16.4"
+            tags:
+              - "16.4"
     runs-on: ubuntu-latest
 
     steps:
@@ -35,13 +37,31 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Docker Metadata Action Tags Arguments
+        id: docker_meta_tags
+        run: |
+          tags=""
+          if [[ $(echo '${{ toJson(matrix.image.tags) }}' | jq -c 'type') == '"array"' ]]; then
+            for element in ${{ join(matrix.image.tags, " ") }}; do
+              tags="${tags}$(echo "type=raw,${element}")\n"
+            done
+
+          else
+            tags='
+              type=semver,pattern={{version}},value=${{ matrix.image.version }}
+              type=semver,pattern={{major}}.{{minor}},value=${{ matrix.image.version }}
+            '
+          fi
+
+          echo "docker_meta_tags<<EOF" >> $GITHUB_ENV
+          echo "$tags" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
       - id: docker_meta
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/re/${{ matrix.image.name }}
-          tags: |
-            type=semver,pattern={{version}},value=${{ matrix.image.version }}
-            type=semver,pattern={{major}}.{{minor}},value=${{ matrix.image.version }}
+          tags: ${{ env.docker_meta_tags }}
 
       - id: docker_build
         name: Build and push Docker image
