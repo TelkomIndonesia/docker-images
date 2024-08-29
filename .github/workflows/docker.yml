@@ -43,7 +43,7 @@ jobs:
           tags=""
           if [[ $(echo '${{ toJson(matrix.image.tags) }}' | jq -c 'type') == '"array"' ]]; then
             for element in ${{ join(matrix.image.tags, ' ') }}; do
-              tags="${tags}$(echo "type=raw,${element}")\n"
+              tags="${tags}type=raw,${element}\n"
             done
 
           else
@@ -54,7 +54,7 @@ jobs:
           fi
 
           echo "docker_meta_tags<<EOF" >> $GITHUB_ENV
-          echo "$tags" >> $GITHUB_ENV
+          echo -e "$tags" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
       - id: docker_meta
