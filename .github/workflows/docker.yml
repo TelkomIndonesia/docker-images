@@ -28,6 +28,8 @@ jobs:
               - 16.4-bookworm
               - 16-bookworm
               - bookworm
+          - name: grafana/alloy
+            version: v1.9.1
     runs-on: ubuntu-latest
 
     steps:
