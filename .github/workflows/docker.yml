@@ -30,6 +30,8 @@ jobs:
               - bookworm
           - name: grafana/alloy
             version: v1.9.1
+          - name: otel/opentelemetry-collector-contrib
+            version: 0.130.1
     runs-on: ubuntu-latest
 
     steps:
