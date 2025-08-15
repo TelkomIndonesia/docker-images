@@ -19,6 +19,8 @@ jobs:
             version: "20.17.0"
           - name: bitnami/redis
             version: 6.2.14
+          - name: busybox
+            version: "1.37.0"
           - name: postgres
             version: "16.4-bookworm"
             tags:
