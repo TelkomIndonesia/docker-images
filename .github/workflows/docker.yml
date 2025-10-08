@@ -18,7 +18,11 @@ jobs:
           - name: node
             version: "20.17.0"
           - name: bitnami/redis
-            version: 6.2.14
+            version: 6.2.14          
+          - name: bitnamilegacy/mongodb
+            version: 5.0.6
+          - name: bitnamilegacy/mongodb
+            version: 8.0.12-debian-12-r2
           - name: busybox
             version: "1.37.0"
           - name: postgres
