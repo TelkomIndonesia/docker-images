@@ -16,9 +16,7 @@ jobs:
           - name: golang
             version: "1.23.0"
           - name: node
-            version: "20.17.0"
-          - name: bitnami/redis
-            version: 6.2.14          
+            version: "20.17.0"       
           - name: bitnamilegacy/mongodb
             version: 5.0.6
           - name: bitnamilegacy/mongodb
