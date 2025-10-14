@@ -14,9 +14,9 @@ jobs:
       matrix:
         image:
           - name: golang
-            version: "1.23.0"
+            version: "1.25.3"
           - name: node
-            version: "20.17.0"       
+            version: "24.10.0"       
           - name: bitnamilegacy/mongodb
             version: 5.0.6
           - name: bitnamilegacy/mongodb
@@ -24,18 +24,18 @@ jobs:
           - name: busybox
             version: "1.37.0"
           - name: postgres
-            version: "16.4-bookworm"
+            version: "18.0-bookworm"
             tags:
               - latest
-              - "16"
-              - "16.4"
-              - 16.4-bookworm
-              - 16-bookworm
+              - "18"
+              - "18.0"
+              - 18.0-bookworm
+              - 18-bookworm
               - bookworm
           - name: grafana/alloy
             version: v1.11.2
           - name: otel/opentelemetry-collector-contrib
-            version: 0.130.1
+            version: 0.137.0
     runs-on: ubuntu-latest
 
     steps:
